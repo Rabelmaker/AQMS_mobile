@@ -1,5 +1,6 @@
 
 
+import 'package:aqms/ui/components/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -14,17 +15,17 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    Color greenman =  Color(0xff079450);
-    Color sedang =  Color(0xff033E75);
-    Color sedangoutlined =  Color(0xffAFD8FF);
-    Color baik =  Color(0xff006D18);
-    Color baikoutlined =  Color(0xff00C72C);
-    Color tsehat =  Color(0xffECB800);
-    Color tsehatoutlined =  Color(0xffFFE68B);
-    Color stsehat =  Color(0xffEC0000);
-    Color stsehatoutlined =  Color(0xffFF5B5B);
-    Color berbahaya =  Color(0xff262626);
-    Color berbahayaoutlined =  Color(0xff4E4C4C);
+    Color greenman =  const Color(0xff079450);
+    Color sedang =  const Color(0xff033E75);
+    Color sedangoutlined =  const Color(0xffAFD8FF);
+    Color baik =  const Color(0xff006D18);
+    Color baikoutlined =  const Color(0xff00C72C);
+    Color tsehat =  const Color(0xffECB800);
+    Color tsehatoutlined =  const Color(0xffFFE68B);
+    Color stsehat =  const Color(0xffEC0000);
+    Color stsehatoutlined =  const Color(0xffFF5B5B);
+    Color berbahaya =  const Color(0xff262626);
+    Color berbahayaoutlined =  const Color(0xff4E4C4C);
     return Scaffold(
       backgroundColor: const Color(0xffEEEEEE),
       body: SafeArea(
@@ -304,8 +305,8 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text("Konsentrasi Parameter ISPU",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -316,7 +317,7 @@ class _DashboardState extends State<Dashboard> {
                 _parameter(baik, "PM2.5", "Baik", "15,5", "51"),
                 _parameter(tsehat, "Ozon", "Baik", "15,5", "51"),
                 _parameter(stsehat, "VOC", "Baik", "15,5", "51"),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 )
               ],
@@ -338,49 +339,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 70,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                      color: Color(0xff262626),
-                      borderRadius: BorderRadius.circular(45)
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const GNav(
-                      rippleColor: Color(0xff079450),
-                      hoverColor: Color(0xff079450),
-                      gap: 8,
-                      activeColor: Colors.white,
-                      iconSize: 24,
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      duration: Duration(milliseconds: 400),
-                      tabBackgroundColor: Color(0xff079450),
-                      color: Colors.white,
-                      tabs: [
-                        GButton(
-                          icon: LineIcons.home,
-                          text: 'Dashboard',
-                        ),
-                        GButton(
-                          icon: LineIcons.pieChart,
-                          text: 'Grafik',
-                        ),
-                        GButton(
-                          icon: LineIcons.user,
-                          text: 'Profile',
-                        ),
-                      ],
-
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            customNavbar()
           ],
         ),
       ),

@@ -105,6 +105,9 @@ class _RegisterState extends State<Register> {
                               const EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 maxLines: 1,
+                                obscureText: true,
+                                enableSuggestions: false,
+                                autocorrect: false,
                                 decoration: const InputDecoration(
                                     border: InputBorder.none,
                                     icon: Icon(Icons.lock),

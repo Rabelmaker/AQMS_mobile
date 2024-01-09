@@ -1,5 +1,6 @@
 
 import 'package:aqms/provider/alat_provider.dart';
+import 'package:aqms/provider/auth_provider/registrasi_provider.dart';
 import 'package:aqms/provider/dashboard_alat_provider.dart';
 import 'package:aqms/provider/parameter_provider.dart';
 import 'package:aqms/ui/auth/login.dart';
@@ -87,9 +88,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AlatProvider()),
         ChangeNotifierProvider(create: (_) => ParameterProvider()),
         ChangeNotifierProvider(create: (_) => DashboardAlatProvider()),
+        ChangeNotifierProvider(create: (_) => RegistrasiProvider()),
       ],
       child: MaterialApp.router(
-        title: 'Flutter Demo',
+        title: 'AQMS',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

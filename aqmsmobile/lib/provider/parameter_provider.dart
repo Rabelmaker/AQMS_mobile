@@ -6,6 +6,8 @@ import '../model/parameter_model.dart';
 class ParameterProvider with ChangeNotifier{
 ParameterModel _parameterModel = ParameterModel(
   id:  0,
+  code: "",
+  alamat: "",
   idAlat: 0,
   temp: 0,
   hum: 0,
@@ -26,7 +28,7 @@ ParameterModel _parameterModel = ParameterModel(
   Future<void> getParameter() async {
     String endpoint = "https://breezomenter.annora.id/api/v1";
     final dio = Dio();
-    Response response = await dio.get('$endpoint/ispu');
+    Response response = await dio.get('$endpoint/ispu2');
 _parameterModel = ParameterModel.fromMap(response.data["data"]);
     notifyListeners();
   }

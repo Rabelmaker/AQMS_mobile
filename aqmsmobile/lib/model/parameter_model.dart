@@ -11,6 +11,8 @@ String parameterModelToMap(ParameterModel data) => json.encode(data.toMap());
 
 class ParameterModel {
   int id;
+  String code;
+  String alamat;
   int idAlat;
   double temp;
   double hum;
@@ -28,6 +30,8 @@ class ParameterModel {
 
   ParameterModel({
     required this.id,
+    required this.code,
+    required this.alamat,
     required this.idAlat,
     required this.temp,
     required this.hum,
@@ -46,6 +50,8 @@ class ParameterModel {
 
   factory ParameterModel.fromMap(Map<String, dynamic> json) => ParameterModel(
     id: json["id"] ?? 0,
+    code:json["code"] ?? "",
+    alamat:json["alamat"] ?? "",
     idAlat: json["id_alat"] ?? 0,
     temp: json["temp"]?.toDouble() ?? 0.0,
     hum: json["hum"]?.toDouble() ??  0.0,
@@ -64,6 +70,8 @@ class ParameterModel {
 
   Map<String, dynamic> toMap() => {
     "id": id,
+    "code": code,
+    "alamat": alamat,
     "id_alat": idAlat,
     "temp": temp,
     "hum": hum,

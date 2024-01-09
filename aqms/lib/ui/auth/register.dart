@@ -1,13 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     Color greenman = const Color(0xff079450);
@@ -23,12 +25,12 @@ class _LoginState extends State<Login> {
                   flex: 3,
                   child: ClipRRect(
                     borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(200)),
+                        bottomRight: Radius.circular(200)),
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
                       child: Image.asset(
-                        "assets/bg2.jpg",
+                        "assets/bg3.jpg",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -52,7 +54,32 @@ class _LoginState extends State<Login> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              const EdgeInsets.symmetric(horizontal: 16),
+                              child: TextFormField(
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    icon: Icon(Icons.accessibility_new_rounded),
+                                    hintText: "Nama"),
+                                controller: userController,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: greenman,
+                                width: 3.0,
+                              ),
+                              borderRadius: BorderRadius.circular(40.0),
+                            ),
+                            child: Padding(
+                              padding:
+                              const EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 maxLines: 1,
                                 decoration: const InputDecoration(
@@ -77,7 +104,7 @@ class _LoginState extends State<Login> {
                             ),
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              const EdgeInsets.symmetric(horizontal: 16),
                               child: TextFormField(
                                 maxLines: 1,
                                 obscureText: true,
@@ -98,21 +125,21 @@ class _LoginState extends State<Login> {
                               width: 650,
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () {},
+                                  onPressed: () => context.goNamed('login'),
                                   style: ButtonStyle(
                                     backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            greenman),
+                                    MaterialStateProperty.all<Color>(
+                                        greenman),
                                     shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(40.0),
+                                        BorderRadius.circular(40.0),
                                       ),
                                     ),
                                   ),
                                   child: const Text(
-                                    "Login",
+                                    "Registrasi",
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
@@ -123,22 +150,24 @@ class _LoginState extends State<Login> {
                           ),
                           Align(
                             alignment: Alignment.center,
-                            child: RichText(text: TextSpan(
-                             text: "Belum Punya Akun ? ",
-                             style: const TextStyle(
-                               color: Colors.black
-                             ),
-                             children: [
-                               TextSpan(
-                                   text: "Registrasi",
-                                   style: TextStyle(
-                                       color: greenman,
-                                       fontWeight: FontWeight.bold
-                                   )
-                               ),
-                             ]
-                         ),
-                         ),
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Sudah Punya Akun ? ",
+                                style: const TextStyle(color: Colors.black),
+                                children: [
+                                  TextSpan(
+                                    text: "Login",
+                                    style: TextStyle(
+                                      color: greenman,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () => context.goNamed('login'),
+                                  ),
+                                ],
+                              ),
+                            ),
+
                           )
                         ],
                       ),

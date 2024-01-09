@@ -8,10 +8,11 @@ class AlatProvider with ChangeNotifier{
   List<AlatModel> get list => _list;
 
   Future<void> getAlat() async {
+    String endpoint = "https://breezomenter.annora.id/api/v1";
     final dio = Dio();
-    Response response = await dio.get('http://127.0.0.1:8000/api/v1/alat');
+    Response response = await dio.get("$endpoint/alat");
     print(response.data);
-    _list = response.data.map((e)=>AlatModel.fromMap(e)).toList();
+    _list = (response.data['data'] as List).map((e) => AlatModel.fromMap(e)).toList();
     notifyListeners();
   }
 

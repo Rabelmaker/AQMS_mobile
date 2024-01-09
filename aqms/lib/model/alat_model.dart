@@ -29,13 +29,13 @@ class AlatModel {
   });
 
   factory AlatModel.fromMap(Map<String, dynamic> json) => AlatModel(
-    id: json["id"],
-    code: json["code"],
-    alamat: json["alamat"],
-    lat: json["lat"]?.toDouble(),
-    lon: json["lon"]?.toDouble(),
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+    id: json["id"] ?? 0,
+    code: json["code"] ?? "",
+    alamat: json["alamat"] ?? "",
+    lat: json["lat"]?.toDouble() ?? 0.0,
+    lon: json["lon"]?.toDouble() ?? 0.0,
+    createdAt: json["created_at"] ?? "",
+    updatedAt: json["updated_at"] ?? "",
   );
 
   Map<String, dynamic> toMap() => {

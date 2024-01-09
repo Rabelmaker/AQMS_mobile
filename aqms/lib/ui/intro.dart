@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Intro extends StatelessWidget {
   const Intro({super.key});
@@ -38,14 +39,14 @@ class Intro extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
+                  const Text(
                     "Welcome To Breezometer",
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 24),
                   ),
-                  Text(
+                  const Text(
                     "Aplikasi terpercaya anda untuk melihat informasi kualitas udara secara real time, ayo mulai perjalanan anda bersama kami untuk mendapatkan udara yang lebih sehat.",
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 13),
@@ -57,7 +58,7 @@ class Intro extends StatelessWidget {
                       width: 650,
                       height: 50,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => context.goNamed('login'),
                           style: ButtonStyle(
                             backgroundColor:
                             MaterialStateProperty.all<Color>(

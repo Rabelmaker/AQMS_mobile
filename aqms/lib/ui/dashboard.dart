@@ -1,9 +1,11 @@
-
-
+import 'package:aqms/provider/dashboard_alat_provider.dart';
+import 'package:aqms/provider/parameter_provider.dart';
+import 'package:aqms/ui/components/color.dart';
 import 'package:aqms/ui/components/navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:line_icons/line_icons.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:provider/provider.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -13,19 +15,18 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  late GoRouter _router;
+
+  @override
+  void initState() {
+    _router = GoRouter(routes: []);
+    context.read<ParameterProvider>().getParameter();
+    context.read<DashboardAlatProvider>().getDashboardAlat();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color greenman =  const Color(0xff079450);
-    Color sedang =  const Color(0xff033E75);
-    Color sedangoutlined =  const Color(0xffAFD8FF);
-    Color baik =  const Color(0xff006D18);
-    Color baikoutlined =  const Color(0xff00C72C);
-    Color tsehat =  const Color(0xffECB800);
-    Color tsehatoutlined =  const Color(0xffFFE68B);
-    Color stsehat =  const Color(0xffEC0000);
-    Color stsehatoutlined =  const Color(0xffFF5B5B);
-    Color berbahaya =  const Color(0xff262626);
-    Color berbahayaoutlined =  const Color(0xff4E4C4C);
     return Scaffold(
       backgroundColor: const Color(0xffEEEEEE),
       body: SafeArea(
@@ -73,7 +74,8 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               CircleAvatar(
                                 radius: 40,
-                                backgroundImage: AssetImage("assets/avatar.png"),
+                                backgroundImage:
+                                    AssetImage("assets/avatar.png"),
                               )
                             ],
                           ),
@@ -107,8 +109,8 @@ class _DashboardState extends State<Dashboard> {
                                     children: [
                                       SizedBox(
                                           height: 24,
-                                          child:
-                                              Image.asset("assets/termostat.png")),
+                                          child: Image.asset(
+                                              "assets/termostat.png")),
                                       const SizedBox(
                                         width: 20,
                                       ),
@@ -124,8 +126,8 @@ class _DashboardState extends State<Dashboard> {
                                       ),
                                       SizedBox(
                                           height: 24,
-                                          child:
-                                              Image.asset("assets/kelembaban.png")),
+                                          child: Image.asset(
+                                              "assets/kelembaban.png")),
                                       const SizedBox(
                                         width: 20,
                                       ),
@@ -157,78 +159,95 @@ class _DashboardState extends State<Dashboard> {
                                         spreadRadius: 0.0,
                                       ),
                                     ]),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 17, horizontal: 20),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                height: 24,
-                                                child: Image.asset(
-                                                    "assets/marker.png"),
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              const Text(
-                                                "Pekanbaru Kota",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    fontSize: 16),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 12,
-                                          ),
-                                          Text(
-                                            "Sedang",
-                                            style: TextStyle(
-                                                fontSize: 40,
-                                                fontWeight: FontWeight.bold,
-                                                color: sedang),
-                                          )
-                                        ],
-                                      ),
-                                      Container(
-                                        height: 110,
-                                        width: 110,
-                                        decoration: BoxDecoration(
-                                            color: sedang,
-                                            border: Border.all(
-                                                color: sedangoutlined, width: 6),
-                                            borderRadius:
-                                                BorderRadius.circular(60)),
-                                        child: const Column(
+                                child: Consumer<ParameterProvider>(
+                                    builder: (context, data, _) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 17, horizontal: 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
-                                            Text(
-                                              "1000",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 30,
-                                                  color: Colors.white),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  height: 24,
+                                                  child: Image.asset(
+                                                      "assets/marker.png"),
+                                                ),
+                                                const SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Consumer<DashboardAlatProvider>(
+                                                    builder:
+                                                        (context, dataAlat, _) {
+                                                  return Text(
+                                                    dataAlat.alatModel.code,
+                                                    maxLines: 1,
+                                                    overflow: TextOverflow.fade,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 16),
+                                                  );
+                                                })
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 12,
                                             ),
                                             Text(
-                                              "AQI",
+                                              data.parameterModel.kualitas,
                                               style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: Colors.white),
+                                                  fontSize: 40,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: sedang),
                                             )
                                           ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                        Container(
+                                          height: 110,
+                                          width: 110,
+                                          decoration: BoxDecoration(
+                                              color: sedang,
+                                              border: Border.all(
+                                                  color: sedangoutlined,
+                                                  width: 6),
+                                              borderRadius:
+                                                  BorderRadius.circular(60)),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "${[
+                                                  data.parameterModel.ispupm25,
+                                                  data.parameterModel.ispupm10,
+                                                  data.parameterModel.ispuozon,
+                                                  data.parameterModel.ispuvoc
+                                                ].reduce((value, element) => value > element ? value : element)}",
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 30,
+                                                    color: Colors.white),
+                                              ),
+                                              const Text(
+                                                "AQI",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
                               ),
                             ],
                           ),
@@ -285,7 +304,6 @@ class _DashboardState extends State<Dashboard> {
                                 children: [
                                   Text(
                                     "Tingkat kualitas udara masih dapat diterima pada kesehatan manusia hewan dan tumbuhan",
-
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
@@ -307,11 +325,10 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(16.0),
-                  child: Text("Konsentrasi Parameter ISPU",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18
-                  ),),
+                  child: Text(
+                    "Konsentrasi Parameter ISPU",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
                 ),
                 _parameter(sedang, "PM10", "Sedang", "15,5", "51"),
                 _parameter(baik, "PM2.5", "Baik", "15,5", "51"),
@@ -332,14 +349,13 @@ class _DashboardState extends State<Dashboard> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.white.withOpacity(0.1),
-                          Colors.white.withOpacity(1),
-                          // Colors.transparent,
-                        ])
-                ),
+                      Colors.white.withOpacity(0.1),
+                      Colors.white.withOpacity(1),
+                      // Colors.transparent,
+                    ])),
               ),
             ),
-            customNavbar()
+            customNavbar(context,_router)
           ],
         ),
       ),
@@ -378,7 +394,8 @@ Widget _parameter(
               flex: 4,
               child: Text(
                 parameter,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
             Flexible(
@@ -396,7 +413,7 @@ Widget _parameter(
               child: Row(
                 children: [
                   Flexible(
-                    flex : 1,
+                    flex: 1,
                     child: Container(
                       height: double.infinity,
                       width: double.infinity,

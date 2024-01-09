@@ -10,38 +10,14 @@ ParameterModel parameterModelFromMap(String str) => ParameterModel.fromMap(json.
 String parameterModelToMap(ParameterModel data) => json.encode(data.toMap());
 
 class ParameterModel {
-  bool status;
-  String pesan;
-  List<Datum> data;
-
-  ParameterModel({
-    required this.status,
-    required this.pesan,
-    required this.data,
-  });
-
-  factory ParameterModel.fromMap(Map<String, dynamic> json) => ParameterModel(
-    status: json["status"],
-    pesan: json["pesan"],
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
-  );
-
-  Map<String, dynamic> toMap() => {
-    "status": status,
-    "pesan": pesan,
-    "data": List<dynamic>.from(data.map((x) => x.toMap())),
-  };
-}
-
-class Datum {
   int id;
   int idAlat;
-  int temp;
-  int hum;
+  double temp;
+  double hum;
   double pm25;
-  int pm10;
-  int voc;
-  int ozon;
+  double pm10;
+  double voc;
+  double ozon;
   double ispupm10;
   double ispupm25;
   double ispuozon;
@@ -50,7 +26,7 @@ class Datum {
   String createdAt;
   String updatedAt;
 
-  Datum({
+  ParameterModel({
     required this.id,
     required this.idAlat,
     required this.temp,
@@ -68,22 +44,22 @@ class Datum {
     required this.updatedAt,
   });
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    idAlat: json["id_alat"],
-    temp: json["temp"],
-    hum: json["hum"],
-    pm25: json["pm25"]?.toDouble(),
-    pm10: json["pm10"],
-    voc: json["voc"],
-    ozon: json["ozon"],
-    ispupm10: json["ispupm10"]?.toDouble(),
-    ispupm25: json["ispupm25"]?.toDouble(),
-    ispuozon: json["ispuozon"]?.toDouble(),
-    ispuvoc: json["ispuvoc"]?.toDouble(),
-    kualitas: json["kualitas"],
-    createdAt: json["created_at"],
-    updatedAt: json["updated_at"],
+  factory ParameterModel.fromMap(Map<String, dynamic> json) => ParameterModel(
+    id: json["id"] ?? 0,
+    idAlat: json["id_alat"] ?? 0,
+    temp: json["temp"]?.toDouble() ?? 0.0,
+    hum: json["hum"]?.toDouble() ??  0.0,
+    pm25: json["pm25"]?.toDouble() ?? 0.0,
+    pm10: json["pm10"]?.toDouble() ?? 0.0,
+    voc: json["voc"]?.toDouble() ?? 0.0,
+    ozon: json["ozon"]?.toDouble() ?? 0.0,
+    ispupm10: json["ispupm10"]?.toDouble() ?? 0.0,
+    ispupm25: json["ispupm25"]?.toDouble() ?? 0.0,
+    ispuozon: json["ispuozon"]?.toDouble() ?? 0.0,
+    ispuvoc: json["ispuvoc"]?.toDouble() ?? 0.0,
+    kualitas: json["kualitas"] ?? "",
+    createdAt: json["created_at"] ??"",
+    updatedAt: json["updated_at"] ?? "",
   );
 
   Map<String, dynamic> toMap() => {

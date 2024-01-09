@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'components/navbar.dart';
 
@@ -10,8 +11,11 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  late GoRouter _router;
+
   @override
   Widget build(BuildContext context) {
+    _router = GoRouter(routes: []);
     Color greenman = const Color(0xff079450);
     Color stsehat = const Color(0xffEC0000);
     TextEditingController userController = TextEditingController();
@@ -175,7 +179,7 @@ class _ProfileState extends State<Profile> {
                     ])),
               ),
             ),
-            customNavbar()
+            customNavbar(context,_router)
           ],
         ),
       ),

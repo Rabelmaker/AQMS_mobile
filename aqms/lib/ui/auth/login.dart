@@ -1,6 +1,10 @@
+import 'package:aqms/provider/auth_provider/login_provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../components/color.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -10,11 +14,72 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  late Image bg;
+  late Image logo;
+
+  @override
+  void initState() {
+    super.initState();
+    bg = Image.asset("assets/bg2.jpg", fit: BoxFit.cover,);
+    logo = Image.asset("assets/logo.png");
+  }
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void loginUser(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+
+    loginProvider.loginModel.username = userController.text;
+    loginProvider.loginModel.password = passwordController.text;
+
+    loginProvider.loginUser().then((isSuccess) {
+      if (isSuccess) {
+        // Tampilkan pesan sukses dan navigasi ke dashboard
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Berhasil'),
+              content: Text('Selamat datang, ${loginProvider.loginModel.nama}!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    context.goNamed('dashboard');
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Tampilkan pesan error untuk kegagalan login
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Login Gagal'),
+              content: Text('Username atau password salah. Silakan coba lagi.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    Color greenman = const Color(0xff079450);
-    TextEditingController userController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -29,10 +94,7 @@ class _LoginState extends State<Login> {
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
-                      child: Image.asset(
-                        "assets/bg2.jpg",
-                        fit: BoxFit.cover,
-                      ),
+                      child: bg
                     ),
                   ),
                 ),
@@ -100,7 +162,7 @@ class _LoginState extends State<Login> {
                               width: 650,
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () => context.goNamed('dashboard'),
+                                  onPressed: () => loginUser(context),
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
@@ -154,7 +216,7 @@ class _LoginState extends State<Login> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
-                    height: 100, child: Image.asset("assets/logo.png")),
+                    height: 100, child: logo),
               ),
             )
           ],

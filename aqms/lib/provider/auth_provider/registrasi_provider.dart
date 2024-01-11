@@ -13,7 +13,7 @@ class RegistrasiProvider with ChangeNotifier {
 
   RegistrasiModel get registrasiModel => _registrasiModel;
 
-  Future<void> registerUser() async {
+  Future<bool> registerUser() async {
     try {
       String endpoint = "https://breezomenter.annora.id/api/v1";
       final dio = Dio();
@@ -29,9 +29,15 @@ class RegistrasiProvider with ChangeNotifier {
 
       // Notify listeners after successful registration
       notifyListeners();
+
+      // Return true to indicate successful registration
+      return true;
     } catch (error) {
       // Handle error, if any
       print('Error during registration: $error');
+
+      // Return false to indicate registration failure
+      return false;
     }
   }
 }

@@ -1,5 +1,6 @@
 
 import 'package:aqms/provider/alat_provider.dart';
+import 'package:aqms/provider/auth_provider/login_provider.dart';
 import 'package:aqms/provider/auth_provider/registrasi_provider.dart';
 import 'package:aqms/provider/dashboard_alat_provider.dart';
 import 'package:aqms/provider/parameter_provider.dart';
@@ -89,6 +90,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ParameterProvider()),
         ChangeNotifierProvider(create: (_) => DashboardAlatProvider()),
         ChangeNotifierProvider(create: (_) => RegistrasiProvider()),
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
       ],
       child: MaterialApp.router(
         title: 'AQMS',

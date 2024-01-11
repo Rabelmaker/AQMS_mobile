@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../provider/auth_provider/registrasi_provider.dart';
+import '../components/color.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -12,28 +13,118 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  late Image bg;
+  late Image logo;
+
+  String? validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'Password harus diisi';
+    } else if (value.length < 6) {
+      return 'Password minimal 6 karakter';
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    bg = Image.asset("assets/bg3.jpg", fit: BoxFit.cover,);
+    logo = Image.asset("assets/logo.png");
+  }
+
   TextEditingController userController = TextEditingController();
   TextEditingController namaController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   void registerUser(BuildContext context) {
-    final registrasiProvider = Provider.of<RegistrasiProvider>(context, listen: false);
+    final registrasiProvider =
+    Provider.of<RegistrasiProvider>(context, listen: false);
 
-    registrasiProvider.registrasiModel.nama = userController.text;
-    registrasiProvider.registrasiModel.username = namaController.text;
+    // Validasi input sebelum melakukan registrasi
+    if (validatePassword(passwordController.text) != null ||
+        namaController.text.isEmpty ||
+        userController.text.isEmpty) {
+      // Menampilkan pesan error jika ada input yang tidak valid
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Registrasi Gagal'),
+            content: Text('Harap isi semua kolom dengan benar dan password harus lebih dari 6.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    registrasiProvider.registrasiModel.nama = namaController.text;
+    registrasiProvider.registrasiModel.username = userController.text;
     registrasiProvider.registrasiModel.password = passwordController.text;
 
-    registrasiProvider.registerUser().then((_) {
-      // Handle navigation or any other UI updates after registration
-      // For example, navigate to the login page
-      context.goNamed('login');
+    registrasiProvider.registerUser().then((isSuccess) {
+      if (isSuccess) {
+        // Tampilkan pesan sukses dan navigasi ke login
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Registrasi Berhasil'),
+              content: Text(
+                  'Registrasi berhasil! Silahkan login untuk melanjutkan.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    context.goNamed('login');
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Tampilkan pesan error untuk kegagalan registrasi
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Registrasi Gagal'),
+              content: Text(
+                  'Terjadi kesalahan saat registrasi atau username sudah terdaftar. Silakan coba lagi.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     });
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(bg.image, context);
+    precacheImage(logo.image, context);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    Color greenman = const Color(0xff079450);
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -48,10 +139,7 @@ class _RegisterState extends State<Register> {
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
-                      child: Image.asset(
-                        "assets/bg3.jpg",
-                        fit: BoxFit.cover,
-                      ),
+                      child: bg
                     ),
                   ),
                 ),
@@ -198,7 +286,7 @@ class _RegisterState extends State<Register> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
-                    height: 100, child: Image.asset("assets/logo.png")),
+                    height: 100, child: logo),
               ),
             )
           ],

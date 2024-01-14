@@ -1,7 +1,6 @@
 import 'package:aqms/provider/dashboard_alat_provider.dart';
 import 'package:aqms/provider/parameter_provider.dart';
 import 'package:aqms/ui/components/color.dart';
-import 'package:aqms/ui/components/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,7 +18,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
-    _router = GoRouter(routes: []);
+
     context.read<ParameterProvider>().getParameter();
     context.read<DashboardAlatProvider>().getDashboardAlat();
     super.initState();
@@ -407,7 +406,7 @@ class _DashboardState extends State<Dashboard> {
                   _parameter("VOC", data.parameterModel.voc,
                       data.parameterModel.ispuvoc),
                   const SizedBox(
-                    height: 100,
+                    height: 20,
                   )
                 ],
               );
@@ -422,13 +421,12 @@ class _DashboardState extends State<Dashboard> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                      Colors.white.withOpacity(0.1),
+                      Colors.white.withOpacity(0.0),
                       Colors.white.withOpacity(1),
                       // Colors.transparent,
                     ])),
               ),
             ),
-            customNavbar(context, _router)
           ],
         ),
       ),

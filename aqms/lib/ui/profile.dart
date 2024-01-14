@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/color.dart';
-import 'components/navbar.dart';
+
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -12,11 +13,15 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  late GoRouter _router;
+  logoutUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.clear();
+
+    context.goNamed('login');
+  }
 
   @override
   Widget build(BuildContext context) {
-    _router = GoRouter(routes: []);
     TextEditingController userController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
     return Scaffold(
@@ -27,14 +32,14 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.all(16.0),
               child: ListView(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
                   SizedBox(
                     height: 150,
                     child: Image.asset("assets/avatar.png"),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   Container(
@@ -116,7 +121,7 @@ class _ProfileState extends State<Profile> {
                       width: 650,
                       height: 50,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: (){},
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(greenman),
@@ -134,14 +139,14 @@ class _ProfileState extends State<Profile> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold),
                           ))),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   SizedBox(
                       width: 650,
                       height: 50,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: logoutUser,
                           style: ButtonStyle(
                             backgroundColor:
                                 MaterialStateProperty.all<Color>(stsehat),
@@ -178,7 +183,7 @@ class _ProfileState extends State<Profile> {
                     ])),
               ),
             ),
-            customNavbar(context,_router)
+
           ],
         ),
       ),

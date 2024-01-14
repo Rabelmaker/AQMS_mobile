@@ -1,4 +1,5 @@
 
+import 'package:aqms/provider/PageProvider.dart';
 import 'package:aqms/provider/alat_provider.dart';
 import 'package:aqms/provider/auth_provider/login_provider.dart';
 import 'package:aqms/provider/auth_provider/registrasi_provider.dart';
@@ -6,11 +7,9 @@ import 'package:aqms/provider/dashboard_alat_provider.dart';
 import 'package:aqms/provider/parameter_provider.dart';
 import 'package:aqms/ui/auth/login.dart';
 import 'package:aqms/ui/auth/register.dart';
-import 'package:aqms/ui/dashboard.dart';
 import 'package:aqms/ui/grafik.dart';
 import 'package:aqms/ui/intro.dart';
-import 'package:aqms/ui/list_stasiun.dart';
-import 'package:aqms/ui/profile.dart';
+import 'package:aqms/ui/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
@@ -21,6 +20,7 @@ void main() {
 }
 
 final GoRouter _router = GoRouter(
+  initialLocation: "/",
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -41,38 +41,21 @@ final GoRouter _router = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         return const Login();
       },
+    ),
+    GoRoute(
+      path: '/mainpage',
+      name: 'mainpage',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Mainpage();
+      },
       routes: <RouteBase>[
         GoRoute(
-          path: 'dashboard',
-          name: 'dashboard',
-          builder: (BuildContext context, GoRouterState state) {
-            return const Dashboard();
-          },
-        ),
-        GoRoute(
-          path: 'station',
-          name: 'station',
-          builder: (BuildContext context, GoRouterState state) {
-            return const ListStasiun();
-          },
-          routes: <RouteBase>[
-            GoRoute(
-              path: 'grafik',
-              name: 'grafik',
-              builder: (BuildContext context, GoRouterState state) {
-                return const Grafik();
-              },
+            path: 'grafik',
+            name: 'grafik',
+            builder: (BuildContext context, GoRouterState state) {
+              return Grafik();
+            }),
 
-            ),
-          ],
-        ),
-        GoRoute(
-          path: 'profile',
-          name: 'profile',
-          builder: (BuildContext context, GoRouterState state) {
-            return const Profile();
-          },
-        ),
       ],
     ),
   ],
@@ -91,6 +74,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DashboardAlatProvider()),
         ChangeNotifierProvider(create: (_) => RegistrasiProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => PageProvider()),
       ],
       child: MaterialApp.router(
         title: 'AQMS',

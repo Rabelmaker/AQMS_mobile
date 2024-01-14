@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/color.dart';
 
@@ -11,13 +14,18 @@ class Intro extends StatefulWidget {
 }
 
 class _IntroState extends State<Intro> {
-  late Image bg;
-  late Image logo;
+
+  _cekLogin() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bool isLogin = sharedPreferences.containsKey("isLogin");
+    if(isLogin) return context.goNamed("mainpage");
+  }
 
   @override
   void initState() {
+    _cekLogin();
     super.initState();
-    bg = Image.asset("assets/bg4.png", fit: BoxFit.cover,);
+
   }
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class _IntroState extends State<Intro> {
           children: [
             SizedBox(
                 width: double.infinity,
-                child: bg),
+                child: Image.asset("assets/bg4.png", fit: BoxFit.cover,)),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

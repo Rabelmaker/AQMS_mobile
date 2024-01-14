@@ -1,8 +1,11 @@
-import 'package:aqms/provider/auth_provider/login_provider.dart';
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/color.dart';
 
@@ -15,66 +18,40 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
-  late Image bg;
-  late Image logo;
-
-  @override
-  void initState() {
-    super.initState();
-    bg = Image.asset("assets/bg2.jpg", fit: BoxFit.cover,);
-    logo = Image.asset("assets/logo.png");
-  }
   TextEditingController userController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  void loginUser(BuildContext context) {
-    final loginProvider = Provider.of<LoginProvider>(context, listen: false);
+  loginUser() async {
 
-    loginProvider.loginModel.username = userController.text;
-    loginProvider.loginModel.password = passwordController.text;
-
-    loginProvider.loginUser().then((isSuccess) {
-      if (isSuccess) {
-        // Tampilkan pesan sukses dan navigasi ke dashboard
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Login Berhasil'),
-              content: Text('Selamat datang, ${loginProvider.loginModel.nama}!'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    context.goNamed('dashboard');
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        // Tampilkan pesan error untuk kegagalan login
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Login Gagal'),
-              content: Text('Username atau password salah. Silakan coba lagi.'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      }
+    String endpoint = "https://breezomenter.annora.id/api/v1";
+    final dio = Dio();
+    Response response = await dio.post('$endpoint/login', data: {
+      'username': userController.text,
+      'password': passwordController.text,
     });
+
+    if(response.data["status"]){
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool("isLogin", true);
+      sharedPreferences.setString("nama", response.data["data"]["nama"]);
+
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: response.data["pesan"],
+        onConfirmBtnTap: () {
+          context.goNamed("mainpage");
+        }
+      );
+
+    }else {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          text: response.data["pesan"],
+      );
+    }
+
   }
 
   @override
@@ -94,7 +71,7 @@ class _LoginState extends State<Login> {
                     child: SizedBox(
                       width: double.infinity,
                       height: double.infinity,
-                      child: bg
+                      child: Image.asset("assets/bg2.jpg", fit: BoxFit.cover,)
                     ),
                   ),
                 ),
@@ -162,7 +139,7 @@ class _LoginState extends State<Login> {
                               width: 650,
                               height: 50,
                               child: ElevatedButton(
-                                  onPressed: () => loginUser(context),
+                                  onPressed: () => loginUser(),
                                   style: ButtonStyle(
                                     backgroundColor:
                                         MaterialStateProperty.all<Color>(
@@ -216,7 +193,7 @@ class _LoginState extends State<Login> {
               child: Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
-                    height: 100, child: logo),
+                    height: 100, child: Image.asset("assets/logo.png")),
               ),
             )
           ],

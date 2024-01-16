@@ -2,7 +2,7 @@ import 'package:aqms/provider/dashboard_alat_provider.dart';
 import 'package:aqms/provider/parameter_provider.dart';
 import 'package:aqms/ui/components/color.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+
 
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  late GoRouter _router;
 
   @override
   void initState() {
@@ -279,7 +278,7 @@ class _DashboardState extends State<Dashboard> {
                                                         .ispupm10,
                                                     data.parameterModel
                                                         .ispuozon,
-                                                    data.parameterModel.ispuvoc
+                                                    data.parameterModel.ispuco
                                                   ].reduce((value, element) => value > element ? value : element).toStringAsFixed(1),
                                                   style: const TextStyle(
                                                       fontWeight:
@@ -403,8 +402,8 @@ class _DashboardState extends State<Dashboard> {
                       data.parameterModel.ispupm25),
                   _parameter("Ozon", data.parameterModel.ozon,
                       data.parameterModel.ispuozon),
-                  _parameter("VOC", data.parameterModel.voc,
-                      data.parameterModel.ispuvoc),
+                  _parameter("CO", data.parameterModel.co,
+                      data.parameterModel.ispuco),
                   const SizedBox(
                     height: 20,
                   )

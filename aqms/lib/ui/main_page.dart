@@ -3,7 +3,6 @@ import 'package:aqms/ui/dashboard.dart';
 import 'package:aqms/ui/list_stasiun.dart';
 import 'package:aqms/ui/profile.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +47,7 @@ class _MainpageState extends State<Mainpage> {
                       text: 'Dashboard',
                       onPressed: (){
                         data.setIndex(0);
-                        data.controller.animateToPage(0, duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+                        data.controller.animateToPage(0, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                       },
                     ),
                     GButton(
@@ -56,7 +55,7 @@ class _MainpageState extends State<Mainpage> {
                       text: 'Grafik',
                       onPressed: (){
                         data.setIndex(1);
-                        data.controller.animateToPage(1, duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+                        data.controller.animateToPage(1, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                       },
                     ),
                     GButton(
@@ -64,7 +63,7 @@ class _MainpageState extends State<Mainpage> {
                       text: 'Profile',
                       onPressed: (){
                         data.setIndex(2);
-                        data.controller.animateToPage(2, duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+                        data.controller.animateToPage(2, duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
                       },
                     ),
                   ],

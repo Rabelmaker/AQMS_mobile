@@ -31,7 +31,7 @@ class GrafikState extends State<Grafik> {
     _ParameterDataJam('15:00', 100),
     _ParameterDataJam('16:00', 150),
   ];
-  List<_ParameterDataJam> voc = [
+  List<_ParameterDataJam> co = [
     _ParameterDataJam('12:00', 100),
     _ParameterDataJam('13:00', 80),
     _ParameterDataJam('14:00', 96),
@@ -66,7 +66,7 @@ class GrafikState extends State<Grafik> {
     _ParameterDataHari('Sab', 40),
     _ParameterDataHari('Min', 40),
   ];
-  List<_ParameterDataHari> vocd = [
+  List<_ParameterDataHari> cod = [
     _ParameterDataHari('Jan', 35),
     _ParameterDataHari('Feb', 28),
     _ParameterDataHari('Mar', 34),
@@ -91,8 +91,8 @@ class GrafikState extends State<Grafik> {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8),
                 child: Text(
                   "Grafik AQI",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -103,11 +103,11 @@ class GrafikState extends State<Grafik> {
                   children: [
                     //Initialize the chart widget
                     SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
+                      primaryXAxis: const CategoryAxis(),
                       // Chart title
-                      title: ChartTitle(text: 'Per Jam'),
+                      title: const ChartTitle(text: 'Per Jam'),
                       // Enable legend
-                      legend: Legend(isVisible: true),
+                      legend: const Legend(isVisible: true),
                       onLegendTapped: (LegendTapArgs x){
                         print(x.pointIndex);
                       },
@@ -120,7 +120,7 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataJam pm10, _) => pm10.parameter,
                           name: 'PM10',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true,),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true,),
                         ),
                         ColumnSeries<_ParameterDataJam, String>(
                           dataSource: pm25,
@@ -128,7 +128,7 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataJam pm25, _) => pm25.parameter,
                           name: 'PM2.5',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true,),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true,),
                         ),
                         ColumnSeries<_ParameterDataJam, String>(
                           dataSource: ozon,
@@ -136,15 +136,15 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataJam ozon, _) => ozon.parameter,
                           name: 'Ozon',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true,),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true,),
                         ),
                         ColumnSeries<_ParameterDataJam, String>(
-                          dataSource: voc,
-                          xValueMapper: (_ParameterDataJam voc, _) => voc.jam,
-                          yValueMapper: (_ParameterDataJam voc, _) => voc.parameter,
-                          name: 'VOC',
+                          dataSource: co,
+                          xValueMapper: (_ParameterDataJam co, _) => co.jam,
+                          yValueMapper: (_ParameterDataJam co, _) => co.parameter,
+                          name: 'CO',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true,),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true,),
                         ),
                       ],
                     ),
@@ -156,11 +156,11 @@ class GrafikState extends State<Grafik> {
                   children: [
                     //Initialize the chart widget
                     SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
+                      primaryXAxis: const CategoryAxis(),
                       // Chart title
-                      title: ChartTitle(text: 'Per Hari'),
+                      title: const ChartTitle(text: 'Per Hari'),
                       // Enable legend
-                      legend: Legend(isVisible: true),
+                      legend: const Legend(isVisible: true),
                       // Enable tooltip
                       tooltipBehavior: TooltipBehavior(enable: true),
                       series: <CartesianSeries<_ParameterDataHari, String>>[
@@ -170,7 +170,7 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataHari pm10, _) => pm10.parameter,
                           name: 'PM 10',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true),
                         ),
                         StackedBar100Series<_ParameterDataHari, String>(
                           dataSource: pm25d,
@@ -178,7 +178,7 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataHari pm25, _) => pm25.parameter,
                           name: 'PM 2.5',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true),
                         ),
                         StackedBar100Series<_ParameterDataHari, String>(
                           dataSource: ozond,
@@ -186,15 +186,15 @@ class GrafikState extends State<Grafik> {
                           yValueMapper: (_ParameterDataHari ozon, _) => ozon.parameter,
                           name: 'Ozon',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true),
                         ),
                         StackedBar100Series<_ParameterDataHari, String>(
-                          dataSource: vocd,
-                          xValueMapper: (_ParameterDataHari voc, _) => voc.hari,
-                          yValueMapper: (_ParameterDataHari voc, _) => voc.parameter,
-                          name: 'VOC',
+                          dataSource: cod,
+                          xValueMapper: (_ParameterDataHari co, _) => co.hari,
+                          yValueMapper: (_ParameterDataHari co, _) => co.parameter,
+                          name: 'CO',
                           // Enable data label
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
+                          dataLabelSettings: const DataLabelSettings(isVisible: true),
                         ),
                       ],
                     ),

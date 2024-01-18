@@ -1,6 +1,6 @@
 import 'package:aqms/ui/components/color.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // Tambahkan import ini
+import 'package:provider/provider.dart';
 import '../provider/grafik_provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -12,118 +12,138 @@ class Grafik extends StatefulWidget {
 }
 
 class GrafikState extends State<Grafik> {
-  GrafikProvider grafikProvider = GrafikProvider();
 
   @override
   void initState() {
     super.initState();
-    grafikProvider.getGrafik();
+    context.read<GrafikProvider>().getGrafik();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => grafikProvider,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: greenman,
-          foregroundColor: Colors.white,
-          title: const Text('Jl.Garuda Sakti'),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ListView(
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    "Grafik AQI",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+    DateTime now = DateTime.now();
+    DateTime date1 = now.subtract(Duration(hours: 1));
+    DateTime date2 = now.subtract(Duration(hours: 2));
+    DateTime date3 = now.subtract(Duration(hours: 3));
+    DateTime date4 = now.subtract(Duration(hours: 4));
+    DateTime date5 = now.subtract(Duration(hours: 5));
+    int befjam1 = date1.hour;
+    int befjam2 = date2.hour;
+    int befjam3 = date3.hour;
+    int befjam4 = date4.hour;
+    int befjam5 = date5.hour;
+
+
+    return Consumer<GrafikProvider>(
+      builder: (context,data,_) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: greenman,
+            foregroundColor: Colors.white,
+            title: const Text('Jl.Garuda Sakti'),
+          ),
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ListView(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      "Grafik AQI",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   ),
-                ),
-                Card(
-                  child: Column(
-                    children: [
-                      SfCartesianChart(
-                        primaryXAxis: const CategoryAxis(),
-                        title: const ChartTitle(text: 'Per Jam'),
-                        legend: const Legend(isVisible: true),
-                        onLegendTapped: (LegendTapArgs x) {
-                          print(x.pointIndex);
-                        },
-                        tooltipBehavior: TooltipBehavior(enable: true),
-                        series: <CartesianSeries<_ParameterDataJam, String>>[
-                          ColumnSeries<_ParameterDataJam, String>(
-                            dataSource: [
-                              _ParameterDataJam('PM10', grafikProvider.grafikModel.bef1jam.avgIspupm10.toDouble()),
-                              _ParameterDataJam('PM2.5', grafikProvider.grafikModel.bef1jam.avgIspupm25.toDouble()),
-                              _ParameterDataJam('Ozon', grafikProvider.grafikModel.bef1jam.avgIspuozon.toDouble()),
-                              _ParameterDataJam('CO', grafikProvider.grafikModel.bef1jam.avgIspuco.toDouble()),
-                            ],
-                            xValueMapper: (_ParameterDataJam data, _) => data.jam,
-                            yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                            name: 'Data',
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          ),
-                          ColumnSeries<_ParameterDataJam, String>(
-                            dataSource: [
-                              _ParameterDataJam('PM10', grafikProvider.grafikModel.bef2jam.avgIspupm10.toDouble()),
-                              _ParameterDataJam('PM2.5', grafikProvider.grafikModel.bef2jam.avgIspupm25.toDouble()),
-                              _ParameterDataJam('Ozon', grafikProvider.grafikModel.bef2jam.avgIspuozon.toDouble()),
-                              _ParameterDataJam('CO', grafikProvider.grafikModel.bef2jam.avgIspuco.toDouble()),
-                            ],
-                            xValueMapper: (_ParameterDataJam data, _) => data.jam,
-                            yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                            name: 'Data',
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          ),
-                          ColumnSeries<_ParameterDataJam, String>(
-                            dataSource: [
-                              _ParameterDataJam('PM10', grafikProvider.grafikModel.bef3jam.avgIspupm10.toDouble()),
-                              _ParameterDataJam('PM2.5', grafikProvider.grafikModel.bef3jam.avgIspupm25.toDouble()),
-                              _ParameterDataJam('Ozon', grafikProvider.grafikModel.bef3jam.avgIspuozon.toDouble()),
-                              _ParameterDataJam('CO', grafikProvider.grafikModel.bef3jam.avgIspuco.toDouble()),
-                            ],
-                            xValueMapper: (_ParameterDataJam data, _) => data.jam,
-                            yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                            name: 'Data',
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          ),
-                          ColumnSeries<_ParameterDataJam, String>(
-                            dataSource: [
-                              _ParameterDataJam('PM10', grafikProvider.grafikModel.bef4jam.avgIspupm10.toDouble()),
-                              _ParameterDataJam('PM2.5', grafikProvider.grafikModel.bef4jam.avgIspupm25.toDouble()),
-                              _ParameterDataJam('Ozon', grafikProvider.grafikModel.bef4jam.avgIspuozon.toDouble()),
-                              _ParameterDataJam('CO', grafikProvider.grafikModel.bef4jam.avgIspuco.toDouble()),
-                            ],
-                            xValueMapper: (_ParameterDataJam data, _) => data.jam,
-                            yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                            name: 'Data',
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          ),
-                          ColumnSeries<_ParameterDataJam, String>(
-                            dataSource: [
-                              _ParameterDataJam('PM10', grafikProvider.grafikModel.bef5jam.avgIspupm10.toDouble()),
-                              _ParameterDataJam('PM2.5', grafikProvider.grafikModel.bef5jam.avgIspupm25.toDouble()),
-                              _ParameterDataJam('Ozon', grafikProvider.grafikModel.bef5jam.avgIspuozon.toDouble()),
-                              _ParameterDataJam('CO', grafikProvider.grafikModel.bef5jam.avgIspuco.toDouble()),
-                            ],
-                            xValueMapper: (_ParameterDataJam data, _) => data.jam,
-                            yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                            name: 'Data',
-                            dataLabelSettings: const DataLabelSettings(isVisible: true),
-                          ),
-                        ],
-                      ),
-                    ],
+                  Card(
+                    child: Column(
+                      children: [
+                        Consumer<GrafikProvider>(
+                          builder: (context,data,_) {
+                            return SfCartesianChart(
+                              primaryXAxis: const CategoryAxis(),
+                              title: const ChartTitle(text: 'Per Jam'),
+                              legend: const Legend(isVisible: true),
+                              onLegendTapped: (LegendTapArgs x) {
+                                print(x.pointIndex);
+                              },
+                              tooltipBehavior: TooltipBehavior(enable: true),
+                              series: <CartesianSeries<_ParameterDataJam, String>>[
+
+
+                                ColumnSeries<_ParameterDataJam, String>(
+                                  dataSource: [
+                                    _ParameterDataJam('PM10', double.parse(data.bef1jam.avgIspupm10.toStringAsFixed(1))),
+                                    _ParameterDataJam('PM2.5', double.parse(data.bef1jam.avgIspupm25.toStringAsFixed(1))),
+                                    _ParameterDataJam('Ozon', double.parse(data.bef1jam.avgIspuozon.toStringAsFixed(1))),
+                                    _ParameterDataJam('CO', double.parse(data.bef1jam.avgIspuco.toStringAsFixed(1))),
+                                  ],
+                                  xValueMapper: (_ParameterDataJam data, _) => data.jam,
+                                  yValueMapper: (_ParameterDataJam data, _) => data.parameter,
+                                  name: "$befjam1:00",
+                                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                ),
+
+                                ColumnSeries<_ParameterDataJam, String>(
+                                  dataSource: [
+                                    _ParameterDataJam('PM10',double.parse(data.bef2jam.avgIspupm10.toStringAsFixed(1))),
+                                    _ParameterDataJam('PM2.5', double.parse(data.bef2jam.avgIspupm25.toStringAsFixed(1))),
+                                    _ParameterDataJam('Ozon', double.parse(data.bef2jam.avgIspuozon.toStringAsFixed(1))),
+                                    _ParameterDataJam('CO', double.parse(data.bef2jam.avgIspuco.toStringAsFixed(1))),
+                                  ],
+                                  xValueMapper: (_ParameterDataJam data, _) => data.jam,
+                                  yValueMapper: (_ParameterDataJam data, _) => data.parameter,
+                                  name: "$befjam2:00",
+                                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                ),
+                                ColumnSeries<_ParameterDataJam, String>(
+                                  dataSource: [
+                                    _ParameterDataJam('PM10', double.parse(data.bef3jam.avgIspupm10.toStringAsFixed(1))),
+                                    _ParameterDataJam('PM2.5',  double.parse(data.bef3jam.avgIspupm25.toStringAsFixed(1))),
+                                    _ParameterDataJam('Ozon',  double.parse(data.bef3jam.avgIspuozon.toStringAsFixed(1))),
+                                    _ParameterDataJam('CO',  double.parse(data.bef3jam.avgIspuco.toStringAsFixed(1))),
+                                  ],
+                                  xValueMapper: (_ParameterDataJam data, _) => data.jam,
+                                  yValueMapper: (_ParameterDataJam data, _) => data.parameter,
+                                  name: "$befjam3:00",
+                                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                ),
+                                ColumnSeries<_ParameterDataJam, String>(
+                                  dataSource: [
+                                    _ParameterDataJam('PM10',  double.parse(data.bef4jam.avgIspupm10.toStringAsFixed(1))),
+                                    _ParameterDataJam('PM2.5',double.parse(data.bef4jam.avgIspupm25.toStringAsFixed(1))),
+                                    _ParameterDataJam('Ozon', double.parse(data.bef4jam.avgIspuozon.toStringAsFixed(1))),
+                                    _ParameterDataJam('CO', double.parse(data.bef4jam.avgIspuco.toStringAsFixed(1))),
+                                  ],
+                                  xValueMapper: (_ParameterDataJam data, _) => data.jam,
+                                  yValueMapper: (_ParameterDataJam data, _) => data.parameter,
+                                  name: "$befjam4:00",
+                                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                ),
+                                ColumnSeries<_ParameterDataJam, String>(
+                                  dataSource: [
+                                    _ParameterDataJam('PM10', double.parse(data.bef5jam.avgIspupm10.toStringAsFixed(1))),
+                                    _ParameterDataJam('PM2.5',  double.parse(data.bef5jam.avgIspupm25.toStringAsFixed(1))),
+                                    _ParameterDataJam('Ozon',  double.parse(data.bef5jam.avgIspuozon.toStringAsFixed(1))),
+                                    _ParameterDataJam('CO',  double.parse(data.bef5jam.avgIspuco.toStringAsFixed(1))),
+                                  ],
+                                  xValueMapper: (_ParameterDataJam data, _) => data.jam,
+                                  yValueMapper: (_ParameterDataJam data, _) => data.parameter,
+                                  name: "$befjam5:00--------------------------------------------------",
+                                  dataLabelSettings: const DataLabelSettings(isVisible: true),
+                                ),
+                              ],
+                            );
+                          }
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }

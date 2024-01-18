@@ -1,10 +1,8 @@
-import 'package:aqms/provider/dashboard_alat_provider.dart';
-import 'package:aqms/provider/parameter_provider.dart';
-import 'package:aqms/ui/components/color.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-
-
 import 'package:provider/provider.dart';
+import 'package:aqms/provider/dashboard_provider.dart';
+import 'package:aqms/ui/components/color.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -14,13 +12,35 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  late Timer _timer;
 
   @override
   void initState() {
+    context.read<DashboardProvider>().getParameter();
 
-    context.read<ParameterProvider>().getParameter();
-    context.read<DashboardAlatProvider>().getDashboardAlat();
+    // Mulai timer untuk mereload setiap 1 menit
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      // Panggil fungsi untuk mereload data dan tampilan
+      _reloadData();
+    });
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // Hentikan timer saat widget dihapus
+    _timer.cancel();
+    super.dispose();
+  }
+
+  // Fungsi untuk mereload data dan tampilan
+  void _reloadData() {
+    context.read<DashboardProvider>().getParameter();
+    // Jika menggunakan setState, pastikan untuk memanggil setState
+    setState(() {
+      // Tidak perlu menambahkan kode spesifik tampilan yang diubah
+    });
   }
 
   @override
@@ -30,7 +50,7 @@ class _DashboardState extends State<Dashboard> {
       body: SafeArea(
         child: Stack(
           children: [
-            Consumer<ParameterProvider>(builder: (context, data, _) {
+            Consumer<DashboardProvider>(builder: (context, data, _) {
               Color warna;
               Color warnaOutlined;
               String keterangan;

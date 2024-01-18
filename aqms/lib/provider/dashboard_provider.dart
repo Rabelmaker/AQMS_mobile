@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../model/parameter_model.dart';
 
-class ParameterProvider with ChangeNotifier{
+class DashboardProvider with ChangeNotifier{
 ParameterModel _parameterModel = ParameterModel(
   id:  0,
   alamat: "",

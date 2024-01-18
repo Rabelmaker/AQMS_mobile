@@ -3,8 +3,8 @@ import 'package:aqms/provider/PageProvider.dart';
 import 'package:aqms/provider/alat_provider.dart';
 import 'package:aqms/provider/auth_provider/login_provider.dart';
 import 'package:aqms/provider/auth_provider/registrasi_provider.dart';
-import 'package:aqms/provider/dashboard_alat_provider.dart';
-import 'package:aqms/provider/parameter_provider.dart';
+import 'package:aqms/provider/grafik_provider.dart';
+import 'package:aqms/provider/dashboard_provider.dart';
 import 'package:aqms/ui/auth/login.dart';
 import 'package:aqms/ui/auth/register.dart';
 import 'package:aqms/ui/grafik.dart';
@@ -70,8 +70,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AlatProvider()),
-        ChangeNotifierProvider(create: (_) => ParameterProvider()),
-        ChangeNotifierProvider(create: (_) => DashboardAlatProvider()),
+        ChangeNotifierProvider(create: (_) => GrafikProvider()),
+        ChangeNotifierProvider(create: (_) => DashboardProvider()),
         ChangeNotifierProvider(create: (_) => RegistrasiProvider()),
         ChangeNotifierProvider(create: (_) => LoginProvider()),
         ChangeNotifierProvider(create: (_) => PageProvider()),

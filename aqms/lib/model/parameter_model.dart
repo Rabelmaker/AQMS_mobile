@@ -2,7 +2,6 @@
 //
 //     final parameterModel = parameterModelFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 ParameterModel parameterModelFromMap(String str) => ParameterModel.fromMap(json.decode(str));

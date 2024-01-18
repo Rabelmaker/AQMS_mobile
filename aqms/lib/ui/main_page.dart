@@ -16,6 +16,11 @@ class Mainpage extends StatefulWidget {
 
 class _MainpageState extends State<Mainpage> {
   @override
+  void initState() {
+    context.read<PageProvider>().setIndex(0);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Consumer<PageProvider>(
       builder: (context,data,_) {

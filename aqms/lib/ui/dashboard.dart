@@ -37,10 +37,6 @@ class _DashboardState extends State<Dashboard> {
   // Fungsi untuk mereload data dan tampilan
   void _reloadData() {
     context.read<DashboardProvider>().getParameter();
-    // Jika menggunakan setState, pastikan untuk memanggil setState
-    setState(() {
-      // Tidak perlu menambahkan kode spesifik tampilan yang diubah
-    });
   }
 
   @override

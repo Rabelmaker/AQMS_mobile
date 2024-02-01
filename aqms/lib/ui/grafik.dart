@@ -1,8 +1,9 @@
+import 'dart:async';
 import 'package:aqms/ui/components/color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/grafik_provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import '../provider/grafik_provider.dart';
 
 class Grafik extends StatefulWidget {
   Grafik({Key? key}) : super(key: key);
@@ -12,11 +13,24 @@ class Grafik extends StatefulWidget {
 }
 
 class GrafikState extends State<Grafik> {
+  late Timer _timer;
 
   @override
   void initState() {
     super.initState();
     context.read<GrafikProvider>().getGrafik();
+
+    // Add a timer to reload data every 2 minutes
+    _timer = Timer.periodic(Duration(minutes: 2), (timer) {
+      context.read<GrafikProvider>().getGrafik();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the timer to avoid memory leaks
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -40,7 +54,7 @@ class GrafikState extends State<Grafik> {
           appBar: AppBar(
             backgroundColor: greenman,
             foregroundColor: Colors.white,
-            title: const Text('Jl.Garuda Sakti'),
+            title: const Text('Pekanbaru Kota'),
           ),
           body: SafeArea(
             child: Padding(
@@ -128,7 +142,7 @@ class GrafikState extends State<Grafik> {
                                   ],
                                   xValueMapper: (_ParameterDataJam data, _) => data.jam,
                                   yValueMapper: (_ParameterDataJam data, _) => data.parameter,
-                                  name: "$befjam5:00--------------------------------------------------",
+                                  name: "$befjam5:00",
                                   dataLabelSettings: const DataLabelSettings(isVisible: true),
                                 ),
                               ],
